@@ -9,6 +9,8 @@ import ErrorMiddleware from './middlewares/error.middleware';
 import HttpException from './utils/exceptions/http.exception';
 import Controller from './interfaces/controller.interface';
 
+import connectDB from './config/ormconfig';
+
 // api constant
 import ConstantAPI from './constants/api.constant';
 
@@ -25,6 +27,7 @@ class App {
   constructor(controllers: Controller[]) {
     this.app = express();
 
+    this.initialiseDatabaseConnection();
     this.initialiseConfig();
     this.initialiseRoutes();
     this.initialiseControllers(controllers);
@@ -70,6 +73,10 @@ class App {
 
   private initialiseErrorHandling(): void {
     this.app.use(ErrorMiddleware);
+  }
+
+  private initialiseDatabaseConnection(): void {
+    connectDB();
   }
 }
 
